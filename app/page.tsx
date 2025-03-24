@@ -1,103 +1,226 @@
-import Image from "next/image";
+'use client';
+
+import { useState, useRef, useEffect } from 'react';
+
+interface Choice {
+  id: number;
+  text: string;
+  icon: string;
+}
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [showControls, setShowControls] = useState(true);
+  const [showRightPanel, setShowRightPanel] = useState(false);
+// Remove this declaration as it's already declared later in the file
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  // First, modify the choices array
+  const choices: Choice[] = [
+    { id: 1, text: "Test", icon: "A" },
+    { id: 2, text: "Meet one of your colleagues", icon: "B" },
+    { id: 3, text: "Applicati ora", icon: "C" },
+  ];
+
+  const togglePlay = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+        setShowControls(true);
+      } else {
+        videoRef.current.play();
+        setShowControls(false);
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  // Add this constant at the top with other state declarations
+  const PANEL_TRIGGER_TIME = 0;
+
+  // Modify handleTimeUpdate function
+  const handleTimeUpdate = () => {
+    if (videoRef.current) {
+      setCurrentTime(videoRef.current.currentTime);
+      if (videoRef.current.currentTime >= PANEL_TRIGGER_TIME && !showRightPanel) {
+        setShowRightPanel(true);
+      }
+    }
+  };
+
+  // Modify handleVideoEnd to remove the panel trigger
+  const handleVideoEnd = () => {
+    setShowControls(true);
+    setIsPlaying(false);
+  };
+
+  const handleLoadedMetadata = () => {
+    if (videoRef.current) {
+      setDuration(videoRef.current.duration);
+    }
+  };
+
+  const formatTime = (time: number) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  };
+
+  // Add this state with your other states
+  const [isMuted, setIsMuted] = useState(false);
+
+  // Replace the existing toggleMute function with this one
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !isMuted;
+      setIsMuted(!isMuted);
+    }
+  };
+
+  // Remove this duplicate handleVideoEnd function
+  // const handleVideoEnd = () => {
+  //   setShowRightPanel(true);
+  //   setShowControls(true);
+  //   setIsPlaying(false);
+  // };
+
+  return (
+    <div className="min-h-screen flex">
+      {/* Video container - full width when playing */}
+      <div className={`${showRightPanel ? 'w-1/2' : 'w-full'} bg-white-900 relative transition-all duration-700 ease-in-out`}>
+        {/* Progress Bar */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gray-300/50 z-10">
+          <div 
+            className="h-full bg-white rounded-full" 
+            style={{ width: `${(currentTime / duration) * 100}%` }}
+          ></div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+        
+        <div 
+          className="w-full h-screen cursor-pointer" 
+          onClick={togglePlay}
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+          <video
+            ref={videoRef}
+            className="w-full h-screen object-cover"
+            onTimeUpdate={handleTimeUpdate}
+            onLoadedMetadata={handleLoadedMetadata}
+            onEnded={handleVideoEnd}
+            onContextMenu={(e) => e.preventDefault()}
+            src="/video.mp4"
+            preload="metadata"
+            playsInline
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        </div>
+        
+        {/* Centered Play Button */}
+        {showControls && (
+          <button
+            onClick={togglePlay}
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-white/70 hover:bg-white/90 flex items-center justify-center transition-all hover:scale-105"
+          >
+            {isPlaying ? (
+              <img src="/play.png" alt="pause" className="w-8 h-8 mx-auto" />
+            ) : (
+              <img src="/play.png" alt="play" className="w-8 h-8 mx-auto" />
+            )}
+          </button>
+        )}
+    
+        {/* Controls Bar */}
+        
+        
+        
+                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+                    <div className="flex items-center gap-4 text-white">
+                      <div className="flex items-center gap-2 ml-auto">
+                        <div className="text-sm font-semibold">
+                          {formatTime(currentTime)} / {formatTime(duration)}
+                        </div>
+                        <button 
+                          onClick={toggleMute}
+                          className="p-2 hover:bg-white/90 rounded-[14px] transition-all hover:scale-110 bg-white/100"
+                        >
+                          <img 
+                            src={isMuted ? "/mute.png" : "/volume.png"}
+                            alt="volume" 
+                            className="w-4 h-4 transition-transform"
+                          />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+      </div>
+      
+      {/* Right side - Choices */}
+      {showRightPanel && (
+        <div className="w-1/2 bg-white p-8 flex flex-col justify-center transition-all duration-700 ease-in-out">
+          <div className="max-w-md mx-auto w-full space-y-4">
+            {choices.map((choice) => (
+              <button
+                key={choice.id}
+                className="w-full flex items-center gap-3 px-6 py-4 transition-all text-left border-transparent border-2"
+                style={{ 
+                  borderRadius: '25px',
+                  backgroundColor: '#f5f5f5',
+                  border: '2px solid transparent'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#000000';
+                  e.currentTarget.style.border = '2px solid #000000';
+                  e.currentTarget.style.color = '#ffffff';
+                  // Find and update the letter span
+                  const letterSpan = e.currentTarget.querySelector('span:first-child');
+                  if (letterSpan) {
+                    (letterSpan as HTMLElement).style.backgroundColor = '#ffffff';
+                    (letterSpan as HTMLElement).style.color = '#000000';
+                  }
+                }}
+                onClick={() => {
+                  if (choice.id === 1) {
+                    window.location.href = '/video2';
+                  } else if (choice.id === 2) {
+                    window.location.href = '/video3';
+                  } else if (choice.id === 3) {
+                    window.location.href = '/video4';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#f5f5f5';
+                  e.currentTarget.style.border = '2px solid transparent';
+                  e.currentTarget.style.color = '';
+                  // Reset the letter span
+                  const letterSpan = e.currentTarget.querySelector('span:first-child');
+                  if (letterSpan) {
+                    (letterSpan as HTMLElement).style.backgroundColor = '#000000';
+                    (letterSpan as HTMLElement).style.color = '#ffffff';
+                  }
+                }}
+              >
+                <span 
+                  style={{ 
+                    backgroundColor: '#000000',
+                    color: '#ffffff',
+                    width: '28px',
+                    height: '28px',
+                    borderRadius: '10px', // You can adjust this value to any number of pixels you want
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: 'all 0.3s ease'
+                  }}
+                  className="hover:bg-white hover:text-black"
+                >
+                  {choice.icon}
+                </span>
+                <span className="font-medium">{choice.text}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

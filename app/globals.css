@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'CustomFont';
+  src: url('/fonts/your-font-file.woff2') format('woff2'),
+       url('/fonts/your-font-file.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -12,15 +21,19 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.left-panel {
+  flex: 1;
+  padding: 20px;
+  background-color: #f0f0f0;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.right-panel {
+  flex: 1;
+  padding: 20px;
+  background-color: #ffffff;
+}
+
+.panel-content {
+  height: 100%;
+  overflow-y: auto;
 }
