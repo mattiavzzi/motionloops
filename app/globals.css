@@ -10,8 +10,8 @@
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #ff0000;
+  --foreground: #ff0000;
 }
 
 @theme inline {
@@ -19,6 +19,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-inter: var(--font-inter);
 }
 
 .left-panel {

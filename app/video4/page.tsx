@@ -135,7 +135,9 @@ export default function Video4() {
       
       {showRightPanel && (
         <div className="w-1/2 bg-white p-8 flex flex-col justify-center transition-all duration-700 ease-in-out">
+          <h2 className="text-3xl font-bold text-center mb-8 font-inter">Select a choice</h2>
           <div className="max-w-md mx-auto w-full space-y-4">
+              <h2 className="text-3xl font-bold text-center mb-8 text-white pt-[20px] font-poppins">Select a choice</h2>
             {choices.map((choice) => (
               <button
                 key={choice.id}
@@ -153,6 +155,7 @@ export default function Video4() {
                   if (letterSpan) {
                     (letterSpan as HTMLElement).style.backgroundColor = '#ffffff';
                     (letterSpan as HTMLElement).style.color = '#000000';
+                    (letterSpan as HTMLElement).style.fontWeight = 'bold';
                   }
                 }}
                 onClick={() => {
@@ -185,7 +188,9 @@ export default function Video4() {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    transition: 'all 0.3s ease'
+                    transition: 'all 0.3s ease',
+                    fontFamily: 'Inter',
+                    fontWeight: 'normal'
                   }}
                   className="hover:bg-white hover:text-black"
                 >

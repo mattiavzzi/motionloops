@@ -223,8 +223,10 @@ export default function Video3() {
         </div>
       </div>
       
+      {/* Right side - Choices */}
       {showRightPanel && (
         <div className="hidden lg:flex w-1/2 bg-white p-8 flex-col justify-center transition-all duration-700 ease-in-out">
+          <h2 className="text-3xl font-bold text-center mb-8">Select a choice</h2>
           <div className="max-w-md mx-auto w-full space-y-4">
             {choices.map((choice) => (
               <button
