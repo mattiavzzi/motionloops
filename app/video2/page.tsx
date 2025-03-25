@@ -36,7 +36,7 @@ export default function Video2() {
     }
   };
 
-  const PANEL_TRIGGER_TIME = 10;
+  const PANEL_TRIGGER_TIME = 1;
 
   const handleTimeUpdate = () => {
     if (videoRef.current) {
@@ -90,7 +90,7 @@ export default function Video2() {
 
   return (
     <div className="min-h-screen flex">
-      <div className={`${showRightPanel ? 'w-1/2' : 'w-full'} bg-white-900 relative transition-all duration-700 ease-in-out`}>
+      <div className={`${showRightPanel ? 'lg:w-1/2' : 'w-full'} bg-white-900 relative transition-all duration-700 ease-in-out w-full`}>
         <div className="absolute top-0 left-0 right-0 h-1 bg-gray-300/50 z-10">
           <div 
             className="h-full bg-white rounded-full" 
@@ -99,7 +99,7 @@ export default function Video2() {
         </div>
         
         <div 
-          className="w-full h-screen cursor-pointer" 
+          className="w-full h-screen cursor-pointer relative" 
           onClick={togglePlay}
         >
           <video
@@ -112,8 +112,72 @@ export default function Video2() {
             src="/video2.mp4"
             preload="metadata"
             playsInline
-            autoPlay  // Add this attribute
+            autoPlay
           />
+
+          {showRightPanel && (
+            <div className="absolute inset-0 bg-black/50 lg:hidden flex items-end pb-20 justify-center">
+              <div className="w-full max-w-md p-4 space-y-4">
+                {choices.map((choice) => (
+                  <button
+                    key={choice.id}
+                    className="w-full flex items-center gap-3 px-6 py-4 transition-all text-left border-transparent border-2 bg-white/90"
+                    style={{ 
+                      borderRadius: '25px',
+                      border: '2px solid transparent'
+                    }}
+                    onClick={() => {
+                      if (choice.id === 1) {
+                        window.location.href = '/';
+                      } else if (choice.id === 2) {
+                        window.location.href = '/video3';
+                      } else if (choice.id === 3) {
+                        window.location.href = '/video4';
+                      }
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = '#000000';
+                      e.currentTarget.style.border = '2px solid #000000';
+                      e.currentTarget.style.color = '#ffffff';
+                      const letterSpan = e.currentTarget.querySelector('span:first-child');
+                      if (letterSpan) {
+                        (letterSpan as HTMLElement).style.backgroundColor = '#ffffff';
+                        (letterSpan as HTMLElement).style.color = '#000000';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+                      e.currentTarget.style.border = '2px solid transparent';
+                      e.currentTarget.style.color = '';
+                      const letterSpan = e.currentTarget.querySelector('span:first-child');
+                      if (letterSpan) {
+                        (letterSpan as HTMLElement).style.backgroundColor = '#000000';
+                        (letterSpan as HTMLElement).style.color = '#ffffff';
+                      }
+                    }}
+                  >
+                    <span 
+                      style={{ 
+                        backgroundColor: '#000000',
+                        color: '#ffffff',
+                        width: '28px',
+                        height: '28px',
+                        borderRadius: '10px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        transition: 'all 0.3s ease'
+                      }}
+                      className="hover:bg-white hover:text-black"
+                    >
+                      {choice.icon}
+                    </span>
+                    <span className="font-medium">{choice.text}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
         
         {showControls && (
@@ -151,7 +215,7 @@ export default function Video2() {
       </div>
       
       {showRightPanel && (
-        <div className="w-1/2 bg-white p-8 flex flex-col justify-center transition-all duration-700 ease-in-out">
+        <div className="hidden lg:flex w-1/2 bg-white p-8 flex-col justify-center transition-all duration-700 ease-in-out">
           <div className="max-w-md mx-auto w-full space-y-4">
             {choices.map((choice) => (
               <button
