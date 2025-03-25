@@ -87,8 +87,8 @@ export default function Home() {
   // };
 
   return (
-    <div className="min-h-screen flex">
-      <div className={`${showRightPanel ? 'lg:w-1/2' : 'w-full'} bg-white-900 relative transition-all duration-700 ease-in-out w-full`}>
+    <div className="min-h-screen flex overflow-hidden">
+      <div className={`${showRightPanel ? 'lg:w-1/2' : 'w-full'} bg-white-900 relative transition-all duration-700 ease-in-out w-full overflow-hidden`}>
         <div className="absolute top-0 left-0 right-0 h-1 bg-gray-300/50 z-10">
           <div 
             className="h-full bg-white rounded-full" 
