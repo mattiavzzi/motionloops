@@ -20,7 +20,7 @@ export default function Home() {
   // First, modify the choices array
   const choices: Choice[] = [
     { id: 1, text: "💼 Explore The Product", icon: "A" },
-    { id: 2, text: "Meet one of your colleagues", icon: "B" },
+    { id: 2, text: "💻 Meet one of your colleagues", icon: "B" },
     { id: 3, text: "💻 Contribute", icon: "C" },
   ];
 
@@ -115,7 +115,7 @@ export default function Home() {
           {showRightPanel && (
             <div className="absolute inset-0 bg-black/50 lg:hidden flex items-end pb-20 justify-center">
               <div className="w-full max-w-md p-4 space-y-4">
-                <h2 className="text-3xl font-bold text-center mb-8 text-white">Select a choice</h2>
+                <h2 className="text-3xl font-bold text-center mb-8 text-white pt-[20px]">Select a choice</h2>
                 {choices.map((choice) => (
                   <button
                     key={choice.id}
@@ -193,28 +193,25 @@ export default function Home() {
         )}
     
         {/* Controls Bar */}
-        
-        
-        
-                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                    <div className="flex items-center gap-4 text-white">
-                      <div className="flex items-center gap-2 ml-auto">
-                        <div className="text-sm font-semibold">
-                          {formatTime(currentTime)} / {formatTime(duration)}
-                        </div>
-                        <button 
-                          onClick={toggleMute}
-                          className="p-2 hover:bg-white/90 rounded-[14px] transition-all hover:scale-110 bg-white/100"
-                        >
-                          <img 
-                            src={isMuted ? "/mute.png" : "/volume.png"}
-                            alt="volume" 
-                            className="w-4 h-4 transition-transform"
-                          />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+        <div className="absolute lg:bottom-0 lg:left-0 lg:right-0 p-4 bg-gradient-to-t from-black/80 to-transparent lg:bg-gradient-to-t">
+          <div className="flex items-center gap-4 text-white">
+            <div className="flex items-center gap-2 ml-auto absolute lg:relative top-4 right-4 lg:top-auto lg:right-auto">
+              <div className="text-sm font-semibold">
+                {formatTime(currentTime)} / {formatTime(duration)}
+              </div>
+              <button 
+                onClick={toggleMute}
+                className="p-2 hover:bg-white/90 rounded-[14px] transition-all hover:scale-110 bg-white/100"
+              >
+                <img 
+                  src={isMuted ? "/mute.png" : "/volume.png"}
+                  alt="volume" 
+                  className="w-4 h-4 transition-transform"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
       
       {/* Right side - Choices */}
