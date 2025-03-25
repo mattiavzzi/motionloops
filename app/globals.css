@@ -10,8 +10,8 @@
 }
 
 :root {
-  --background: #ff0000;
-  --foreground: #ff0000;
+  --background: #ffffff;
+  --foreground: #000000;
 }
 
 @theme inline {

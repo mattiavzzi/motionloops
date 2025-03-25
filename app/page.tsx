@@ -87,7 +87,7 @@ export default function Home() {
   // };
 
   return (
-    <div className="min-h-screen flex overflow-hidden font-inter">
+    <div className="min-h-screen flex overflow-hidden">
       <div className={`${showRightPanel ? 'lg:w-1/2' : 'w-full'} bg-white-900 relative transition-all duration-700 ease-in-out w-full overflow-hidden`}>
         <div className="absolute top-0 left-0 right-0 h-1 bg-gray-300/50 z-10">
           <div 
@@ -115,7 +115,7 @@ export default function Home() {
           {showRightPanel && (
             <div className="absolute inset-0 bg-black/50 lg:hidden flex items-end pb-20 justify-center">
               <div className="w-full max-w-md p-4 space-y-4">
-                <h2 className="text-3xl font-bold text-center mb-8 text-white pt-[20px] font-poppins">Select a choice</h2>
+                <h2 className="text-3xl font-bold text-center mb-8 text-white pt-[20px]">Select a choice</h2>
                 {choices.map((choice) => (
                   <button
                     key={choice.id}
@@ -217,7 +217,7 @@ export default function Home() {
       {/* Right side - Choices */}
       {showRightPanel && (
         <div className="hidden lg:flex w-1/2 bg-white p-8 flex-col justify-center transition-all duration-700 ease-in-out">
-          <h2 className="text-3xl font-bold text-center mb-4 font-poppins">Select a choice</h2>
+          <h2 className="text-3xl font-bold text-center mb-8">Select a choice</h2>
           <div className="max-w-md mx-auto w-full space-y-4">
             {choices.map((choice) => (
               <button
@@ -237,7 +237,6 @@ export default function Home() {
                   if (letterSpan) {
                     (letterSpan as HTMLElement).style.backgroundColor = '#ffffff';
                     (letterSpan as HTMLElement).style.color = '#000000';
-                    (letterSpan as HTMLElement).style.fontWeight = 'bold';
                   }
                 }}
                 onClick={() => {
@@ -267,13 +266,11 @@ export default function Home() {
                     color: '#ffffff',
                     width: '28px',
                     height: '28px',
-                    borderRadius: '10px',
+                    borderRadius: '10px', // You can adjust this value to any number of pixels you want
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    transition: 'all 0.3s ease',
-                    fontFamily: 'Inter',
-                    fontWeight: 'normal'
+                    transition: 'all 0.3s ease'
                   }}
                   className="hover:bg-white hover:text-black"
                 >
