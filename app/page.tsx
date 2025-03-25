@@ -21,7 +21,7 @@ export default function Home() {
   const choices: Choice[] = [
     { id: 1, text: "💼 Explore The Product", icon: "A" },
     { id: 2, text: "Meet one of your colleagues", icon: "B" },
-    { id: 3, text: "Applicati ora", icon: "C" },
+    { id: 3, text: "💻 Contribute", icon: "C" },
   ];
 
   const togglePlay = () => {
