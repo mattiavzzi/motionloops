@@ -36,7 +36,7 @@ export default function Video2() {
     }
   };
 
-  const PANEL_TRIGGER_TIME = 0;
+  const PANEL_TRIGGER_TIME = 10;
 
   const handleTimeUpdate = () => {
     if (videoRef.current) {
