@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useRef } from 'react';
+// Add useEffect to the imports
+import { useState, useRef, useEffect } from 'react';
 
 interface Choice {
   id: number;
@@ -72,6 +73,21 @@ export default function Video2() {
     }
   };
 
+  // Add this useEffect before the return statement
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = false;
+      videoRef.current.play()
+        .then(() => {
+          setIsPlaying(true);
+          setShowControls(false);
+        })
+        .catch((error) => {
+          console.log("Autoplay failed:", error);
+        });
+    }
+  }, []);
+
   return (
     <div className="min-h-screen flex">
       <div className={`${showRightPanel ? 'w-1/2' : 'w-full'} bg-white-900 relative transition-all duration-700 ease-in-out`}>
@@ -93,9 +109,10 @@ export default function Video2() {
             onLoadedMetadata={handleLoadedMetadata}
             onEnded={handleVideoEnd}
             onContextMenu={(e) => e.preventDefault()}
-            src="/video2.mp4"  // Updated video path
+            src="/video2.mp4"
             preload="metadata"
             playsInline
+            autoPlay  // Add this attribute
           />
         </div>
         

@@ -19,9 +19,9 @@ export default function Home() {
 
   // First, modify the choices array
   const choices: Choice[] = [
-    { id: 1, text: "Test 1", icon: "A" },
+    { id: 1, text: "Explore the Product", icon: "A" },
     { id: 2, text: "Meet one of your colleagues", icon: "B" },
-    { id: 3, text: "Applicati ora", icon: "C" },
+    { id: 3, text: "Applicati subito", icon: "C" },
   ];
 
   const togglePlay = () => {
