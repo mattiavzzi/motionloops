@@ -19,7 +19,7 @@ export default function Home() {
 
   // First, modify the choices array
   const choices: Choice[] = [
-    { id: 1, text: "Test 1", icon: "A" },
+    { id: 1, text: "💼 Explore The Product", icon: "A" },
     { id: 2, text: "Meet one of your colleagues", icon: "B" },
     { id: 3, text: "Applicati ora", icon: "C" },
   ];
@@ -115,6 +115,7 @@ export default function Home() {
           {showRightPanel && (
             <div className="absolute inset-0 bg-black/50 lg:hidden flex items-end pb-20 justify-center">
               <div className="w-full max-w-md p-4 space-y-4">
+                <h2 className="text-3xl font-bold text-center mb-8 text-white">Select a choice</h2>
                 {choices.map((choice) => (
                   <button
                     key={choice.id}
@@ -159,7 +160,7 @@ export default function Home() {
                         color: '#ffffff',
                         width: '28px',
                         height: '28px',
-                        borderRadius: '10px',
+                        borderRadius: '12px',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -181,7 +182,7 @@ export default function Home() {
         {showControls && (
           <button
             onClick={togglePlay}
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-white/70 hover:bg-white/90 flex items-center justify-center transition-all hover:scale-105"
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-white/70 hover:bg-white/80 flex items-center justify-center transition-all hover:scale-115"
           >
             {isPlaying ? (
               <img src="/play.png" alt="pause" className="w-8 h-8 mx-auto" />
@@ -219,6 +220,7 @@ export default function Home() {
       {/* Right side - Choices */}
       {showRightPanel && (
         <div className="hidden lg:flex w-1/2 bg-white p-8 flex-col justify-center transition-all duration-700 ease-in-out">
+          <h2 className="text-3xl font-bold text-center mb-8">Select a choice</h2>
           <div className="max-w-md mx-auto w-full space-y-4">
             {choices.map((choice) => (
               <button
